@@ -926,7 +926,7 @@ export class MemoryLayer {
     catch (e) { console.error(`[!] AuditReport create_audit failed: ${e}`); }
 
     let reportTx = "";
-    try { reportTx = await stylus.finalizeAudit(taskId, riskLevel, confidence, vulnType, markdownReport); }
+    try { reportTx = await stylus.finalizeAuditEncrypted(taskId, riskLevel, confidence, vulnType, markdownReport); }
     catch (e) { console.error(`[!] AuditReport finalize_audit failed: ${e}`); }
 
     this.cache = null;
