@@ -206,6 +206,16 @@ contract RaxcAgentERC8004 {
     return audits[recordId].finalized;
   }
 
+  /// Check if a report is encrypted (owner-only readable)
+  function isEncrypted(uint256 recordId) external view returns (bool) {
+    return audits[recordId].encrypted;
+  }
+
+  /// Get the ECIES-encrypted AES key for a record
+  function getEncryptedKey(uint256 recordId) external view returns (bytes memory) {
+    return audits[recordId].encryptedKey;
+  }
+
   // ── Long-Context Memory ─────────────────────────────────────────────────
 
   /// Read a single memory entry by index
