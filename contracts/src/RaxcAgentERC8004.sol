@@ -88,7 +88,6 @@ contract RaxcAgentERC8004 {
   // ── Audit Records ───────────────────────────────────────────────────────
 
   function createAudit(string calldata contractName) external returns (uint256 recordId) {
-    require(agentId != 0, "register first");
     recordId = recordCount++;
     audits[recordId] = AuditRecord({
       contractName: contractName,
@@ -124,7 +123,6 @@ contract RaxcAgentERC8004 {
     string calldata vulnType,
     bytes calldata reportMarkdown
   ) external returns (uint256 achievementId) {
-    require(agentId != 0, "register first");
     AuditRecord storage r = audits[recordId];
     require(r.createdAt != 0, "audit not found");
     require(!r.finalized, "already finalized");
@@ -141,10 +139,12 @@ contract RaxcAgentERC8004 {
     reportData[recordId] = reportMarkdown;
     totalAudits++;
 
-    // Log to official ERC-8004 ReputationRegistry
-    string memory category = _riskCategory(riskLevel);
-    string memory proofURI = string(abi.encodePacked("raxc://audit/", _uint2str(recordId)));
-    achievementId = REPUTATION.logAchievement(agentId, category, confidence, proofURI);
+    // Log to official ERC-8004 ReputationRegistry (only if registered)
+    if (agentId != 0) {
+      string memory category = _riskCategory(riskLevel);
+      string memory proofURI = string(abi.encodePacked("raxc://audit/", _uint2str(recordId)));
+      achievementId = REPUTATION.logAchievement(agentId, category, confidence, proofURI);
+    }
 
     emit AuditFinalized(agentId, recordId, riskLevel, confidence, hash, achievementId, block.timestamp);
   }
@@ -161,7 +161,6 @@ contract RaxcAgentERC8004 {
     bytes calldata encryptedReport,
     bytes calldata encryptedAesKey
   ) external returns (uint256 achievementId) {
-    require(agentId != 0, "register first");
     AuditRecord storage r = audits[recordId];
     require(r.createdAt != 0, "audit not found");
     require(!r.finalized, "already finalized");
@@ -180,9 +179,12 @@ contract RaxcAgentERC8004 {
     reportData[recordId] = encryptedReport;
     totalAudits++;
 
-    string memory category = _riskCategory(riskLevel);
-    string memory proofURI = string(abi.encodePacked("raxc://audit/encrypted/", _uint2str(recordId)));
-    achievementId = REPUTATION.logAchievement(agentId, category, confidence, proofURI);
+    // Log to official ERC-8004 ReputationRegistry (only if registered)
+    if (agentId != 0) {
+      string memory category = _riskCategory(riskLevel);
+      string memory proofURI = string(abi.encodePacked("raxc://audit/encrypted/", _uint2str(recordId)));
+      achievementId = REPUTATION.logAchievement(agentId, category, confidence, proofURI);
+    }
 
     emit AuditFinalizedEncrypted(agentId, recordId, riskLevel, confidence, hash, achievementId, block.timestamp);
   }
@@ -213,7 +215,6 @@ contract RaxcAgentERC8004 {
   }
 
   function pushMemory(bytes calldata summaryJson, string calldata description) external {
-    require(agentId != 0, "register first");
     require(summaryJson.length > 0, "empty memory");
 
     uint256 index = memoryCount++;
