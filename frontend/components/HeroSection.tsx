@@ -83,7 +83,7 @@ export function HeroSection() {
           style={{
             fontSize: 'clamp(17px, 2.2vw, 22px)',
             color: 'var(--text-muted)',
-            maxWidth: 560,
+            maxWidth: 600,
             margin: '0 auto 14px',
             lineHeight: 1.55,
           }}
@@ -154,7 +154,7 @@ export function HeroSection() {
           {[
             { dot: '#ffffff', label: `${audits} audit${audits !== 1 ? 's' : ''} persisted` },
             { dot: 'var(--cyan)', label: '14 memories loaded' },
-            { dot: '#ffd60a', label: erc7857 > 0 ? `ERC-7857 · ${erc7857} update${erc7857 !== 1 ? 's' : ''}` : 'ERC-7857 live' },
+            { dot: '#ffd60a', label: erc7857 > 0 ? `ERC-8004 · ${erc7857} update${erc7857 !== 1 ? 's' : ''}` : 'ERC-8004 live' },
           ].map(({ dot, label }) => (
             <div
               key={label}
