@@ -68,7 +68,7 @@ const Banner: FC = () => (
       </Text>
     ))}
     <Text color="gray">
-      {"  Autonomous Security Cognition on Arbitrum   "}
+      {"  Autonomous Security Cognition on Mantle   "}
       <Text color="yellow" bold>
         v1.0.0
       </Text>
