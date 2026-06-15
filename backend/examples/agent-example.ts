@@ -1,7 +1,7 @@
 /*!
 Example: RAXC Multi-Agent Framework — Sovereign Execution Mode (TypeScript)
 
-Full pipeline: Qdrant (RAG) → OpenAI (LLM) → Stylus (on-chain proof).
+Full pipeline: Qdrant (RAG) → OpenAI (LLM) → Mantle Sepolia (on-chain proof).
 
 Prerequisites:
   - Qdrant Cloud: exploit vectors in defi_cases + defi_protocols
@@ -109,7 +109,7 @@ async function main(): Promise<void> {
     `\x1b[92m[✓] Qdrant online — ${loaded} total exploit vectors loaded\x1b[0m\n`,
   );
 
-  // ─── Initialize Stylus + OpenAI clients ────────────────────────────────────
+  // ─── Initialize Mantle + OpenAI clients ──────────────────────────────────
   const stylus = await StylusClient.fromEnv();
   const compute = buildOpenAiClient();
 

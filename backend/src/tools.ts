@@ -7,7 +7,7 @@ These tools are plugged into the agent framework for comprehensive analysis:
 - FlashLoanTool: Detects flash loan and price oracle attack surfaces
 - AccessControlTool: Deep access control and privilege escalation checks
 - ReflectionTool: LLM self-critique via OpenAI — removes hallucinated fixes
-- MemoryTool: Loads past audit sessions from Stylus AgentMemory for persistent memory
+- MemoryTool: Loads past audit sessions from RaxcAgentERC8004 for persistent memory
 */
 
 import type { OpenAiClient } from "./openai-client.ts";

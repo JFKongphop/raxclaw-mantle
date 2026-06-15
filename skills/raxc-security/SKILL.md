@@ -1,7 +1,7 @@
 ---
 name: raxc-security-audit
-description: Autonomous smart contract security audit using 722 real DeFi exploits from 0G Storage. Detects reentrancy, flash loan attacks, access control vulnerabilities and more using RAXC multi-agent cognition engine on 0G Galileo.
-metadata: {"openclaw": {"emoji": "🦀", "requires": {"bins": ["cargo"]}, "homepage": "https://github.com/raxc/raxc-0g-agent-framework"}}
+description: Autonomous smart contract security audit using 782 real DeFi exploits from Qdrant. Detects reentrancy, flash loan attacks, access control vulnerabilities and more using RAXC multi-agent cognition engine on Mantle Sepolia.
+metadata: {"openclaw": {"emoji": "🦀", "requires": {"bins": ["bun"]}, "homepage": "https://github.com/JFKongphop/raxclaw-mantle"}}
 ---
 
 # RAXC Security Audit Skill
@@ -12,19 +12,19 @@ When the user asks to **audit**, **analyze**, **check**, or **scan** a Solidity 
 
 RAXC is an autonomous security cognition engine. It runs a 13-phase multi-agent pipeline:
 
-1. **MemoryTool** — loads past audit history from 0G Storage via ERC-7857 on-chain index
+1. **MemoryTool** — loads past audit history from Mantle Sepolia via RaxcAgentERC8004
 2. **PatternDetector** — static analysis for reentrancy, access control, flash loan patterns
-3. **RaxcAnalyzer** — RAG search across 722 real DeFi exploits (cosine similarity)
-4. **0G Compute** — LLM reasoning with exploit context injected
+3. **RaxcAnalyzer** — RAG search across 782 real DeFi exploits (cosine similarity via Qdrant)
+4. **LLM** — GPT-4o-mini reasoning with exploit context injected
 5. **Consensus Engine** — multi-agent vote → deterministic verdict
 6. **AttackSimulator** — 8-step deterministic attack execution path
 7. **GraphConstructor** — attack graph (nodes + edges)
 8. **ConsistencyVerifier** — cross-checks simulation vs graph vs tools
 9. **FinalDecision** — single authority verdict
 10. **Attestation** — replay ID + execution trace hash
-11. **ReflectionTool** — 0G Compute self-critique, removes hallucinations
-12. **0G Storage** — uploads audit summary, gets merkle root hash
-13. **ERC-7857** — updates agent intelligence on-chain (0G Galileo chain 16602)
+11. **ReflectionTool** — LLM self-critique, removes hallucinations
+12. **On-Chain Storage** — ECIES-encrypted audit report on Mantle Sepolia
+13. **RaxcAgentERC8004** — single contract for audit records + long-context memory
 
 ## How to Invoke
 
@@ -42,8 +42,7 @@ bash {baseDir}/run.sh
 - Consistency score across all verification checks
 - Replay ID — deterministic reproduction identifier
 - Execution trace hash — verifiable attestation
-- 0G Storage root hash — merkle root of audit data
-- ERC-7857 TX hash — on-chain cognition state update
+- On-chain TX hashes — memory + audit records on Mantle Sepolia
 
 ## Example Output
 
@@ -54,22 +53,21 @@ bash {baseDir}/run.sh
 [Planner]        Dispatching to RAXC cognition engine...
 
 [RAXC]           Starting autonomous security analysis...
-[MemoryTool]     Loaded 3 past audits from 0G Storage
-[RaxcAnalyzer]   Querying 722-exploit RAG database...
-[0G Compute]     Sending for analysis...
+[MemoryTool]     Loaded 3 past audits from Mantle Sepolia
+[RaxcAnalyzer]   Querying 782-exploit RAG database (Qdrant)...
+[LLM]            Sending for analysis...
 [RAXC]           Running consensus engine...
-[ReflectionTool] 0G Compute self-critique...
-[0G Storage]     Uploading audit summary...
-[ERC-7857]       Intelligence updated on-chain (chain 16602)
+[ReflectionTool] LLM self-critique...
+[On-Chain]       Storing encrypted audit report...
+[RaxcAgentERC8004] Intelligence updated on-chain (Mantle Sepolia, chain 5003)
 ```
 
 ## Environment Required
 
 Copy `.env.example` to `.env` and fill in:
-- `PRIVATE_KEY` — 0G Galileo wallet private key
-- `RAXC_AGENT_NFT_ADDRESS` — ERC-7857 contract address
-- `OG_RPC_URL` — 0G EVM RPC endpoint
-- `OG_INDEXER_RPC` — 0G Storage indexer
+- `PRIVATE_KEY` — Mantle Sepolia wallet private key
+- `AGENT_ERC8004` — RaxcAgentERC8004 contract address
+- `MANTLE_SEPOLIA` — Mantle Sepolia RPC endpoint
 
 ## Architecture
 
@@ -77,9 +75,9 @@ Copy `.env.example` to `.env` and fill in:
 OpenClaw Orchestrator
     ↓ matches raxc-security-audit skill
     ↓ calls run.sh
-RAXC Rust Cognition Engine
-    ↓ RAG: 722 real DeFi exploits on 0G Storage
-    ↓ LLM: 0G Compute (qwen-2.5-7b-instruct)
-    ↓ Memory: ERC-7857 on-chain index → 0G Storage
-ERC-7857 Persistent Agent Identity (0G Galileo)
+RAXC TypeScript Cognition Engine (Bun)
+    ↓ RAG: 782 real DeFi exploits on Qdrant Cloud
+    ↓ LLM: GPT-4o-mini (OpenAI)
+    ↓ Memory: RaxcAgentERC8004 on-chain (Mantle Sepolia)
+RaxcAgentERC8004 — Audit Records + Long-Context Memory (Mantle Sepolia, chain 5003)
 ```

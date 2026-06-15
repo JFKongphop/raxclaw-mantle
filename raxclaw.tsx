@@ -225,7 +225,7 @@ const RunUI: FC<{ contractCode?: string; contractFile?: string }> = ({ contractC
       if (newLines.length > 0) setLines((prev) => [...prev, ...newLines]);
 
       // Track active RAXC module label from output e.g. [RAXC], [MemoryTool]
-      const m = text.match(/\[(RAXC|MemoryTool|RaxcAnalyzer|Stylus|Qdrant|OpenAI|ReflectionTool|Consensus|Planner)[^\]]*\]/);
+      const m = text.match(/\[(RAXC|MemoryTool|RaxcAnalyzer|Mantle|Qdrant|OpenAI|ReflectionTool|Consensus|Planner)[^\]]*\]/);
       if (m) setPhase(m[0]);
     };
 

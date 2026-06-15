@@ -38,7 +38,7 @@ function banner() {
   console.log("██║  ██║ ██║  ██║██╔╝ ██╗╚██████╗███████╗██║  ██║╚███╔███╔╝");
   console.log("╚═╝  ╚═╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝ ╚══╝╚══╝ ");
   console.log("");
-  console.log("RAXC × OpenClaw    —    Autonomous Security Cognition on Arbitrum");
+  console.log("RAXC × OpenClaw    —    Autonomous Security Cognition on Mantle");
   console.log("════════════════════════════════════════════════════════════");
   console.log("");
 }
