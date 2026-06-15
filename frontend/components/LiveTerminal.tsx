@@ -8,7 +8,7 @@ interface TerminalLine {
   type: 'info' | 'progress' | 'banner' | 'phase' | 'explanation' | 'complete' | 'error' | 'input';
 }
 
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001/ws';
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://raxclaw-mantle.fly.dev/ws';
 
 const DEMO_CONTRACT = `// DeFiVault — built-in demo contract
 pragma solidity ^0.7.0;
