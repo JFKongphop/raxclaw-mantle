@@ -12,7 +12,7 @@
 
 ## 🎥 Demo Video
 
-[![RAXC Demo](https://img.youtube.com/vi/KCB8SH8YXvo/0.jpg)](https://youtu.be/KCB8SH8YXvo)
+[![RAXC Demo](https://img.youtube.com/vi/KCB8SH8YXvo/0.jpg)](https://youtu.be/i7NuIjf5wck)
 
 ---
 

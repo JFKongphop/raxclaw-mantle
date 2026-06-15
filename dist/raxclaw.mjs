@@ -38622,7 +38622,7 @@ var RunUI = ({ contractCode, contractFile }) => {
       const text = chunk.toString();
       const newLines = text.split("\n").filter((l) => l.trim().length > 0).map((l) => ({ id: lineId.current++, text: l }));
       if (newLines.length > 0) setLines((prev) => [...prev, ...newLines]);
-      const m = text.match(/\[(RAXC|MemoryTool|RaxcAnalyzer|Stylus|Qdrant|OpenAI|ReflectionTool|Consensus|Planner)[^\]]*\]/);
+      const m = text.match(/\[(RAXC|MemoryTool|RaxcAnalyzer|Mantle|Qdrant|OpenAI|ReflectionTool|Consensus|Planner)[^\]]*\]/);
       if (m) setPhase(m[0]);
     };
     proc.stdout.on("data", onData);

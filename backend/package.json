@@ -1,7 +1,7 @@
 {
   "name": "raxc-typescript",
   "version": "0.1.0",
-  "description": "AI-Powered DeFi Smart Contract Vulnerability Scanner using RAG — TypeScript Edition",
+  "description": "AI-Powered DeFi Smart Contract Vulnerability Scanner using RAG on Mantle Sepolia",
   "license": "MIT",
   "type": "module",
   "scripts": {
