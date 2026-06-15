@@ -68,16 +68,16 @@ The result? Every audit comes with a **replay ID** and **trace hash** that prove
 | Service | URL |
 |---|---|
 | **Frontend** | [raxclaw-mantle.vercel.app](https://raxclaw-mantle.vercel.app) |
-| **WebSocket API** | `ws://localhost:3001/ws` |
-| **RaxcAgentERC8004** | [0x9eD9190d6B2a57444020a7C4461f8A17B0638d4e](https://sepolia.mantlescan.xyz/address/0x9eD9190d6B2a57444020a7C4461f8A17B0638d4e) |
+| **WebSocket API** | `wss://raxclaw-mantle.fly.dev/ws` |
+| **RaxcAgentERC8004** | [0x28d8317b60f5103516c83b40c20d29E8EcB286f1](https://sepolia.mantlescan.xyz/address/0x28d8317b60f5103516c83b40c20d29E8EcB286f1) |
 
 ### 🔐 Latest On-Chain Proof
 
 | Field | Link |
 |---|---|
-| **Memory TX** | [0xf8fe0c24f4ad18a87f140f2c035c761e16b6e0ab6c6e26f7e672a8cc742e70c0](https://sepolia.mantlescan.xyz/tx/0xf8fe0c24f4ad18a87f140f2c035c761e16b6e0ab6c6e26f7e672a8cc742e70c0) |
-| **Audit TX** | [0x9ae4779b917edf357afa1befa220e6874a250d9da869f8a21fb35d11e83a2dfd](https://sepolia.mantlescan.xyz/tx/0x9ae4779b917edf357afa1befa220e6874a250d9da869f8a21fb35d11e83a2dfd) |
-| **Full Report** | [localhost:3000/tx-report/0x9ae4779b917edf357afa1befa220e6874a250d9da869f8a21fb35d11e83a2dfd](http://localhost:3000/tx-report/0x9ae4779b917edf357afa1befa220e6874a250d9da869f8a21fb35d11e83a2dfd) |
+| **Memory TX** | [0x6b208d958365cb56292e20fa7bc5f665c32dfffd7c39b387bc199bd2f7948ec8](https://sepolia.mantlescan.xyz/tx/0x6b208d958365cb56292e20fa7bc5f665c32dfffd7c39b387bc199bd2f7948ec8) |
+| **Audit TX** | [0x8240ee5f25e4340eaacd05f4c79369df428db94aef3704e342e121451207e913](https://sepolia.mantlescan.xyz/tx/0x8240ee5f25e4340eaacd05f4c79369df428db94aef3704e342e121451207e913) |
+| **Full Report** | [raxclaw-mantle.vercel.app/tx-report/0x8240ee5f25e4340eaacd05f4c79369df428db94aef3704e342e121451207e913](https://raxclaw-mantle.vercel.app/tx-report/0x8240ee5f25e4340eaacd05f4c79369df428db94aef3704e342e121451207e913) |
 
 ---
 
@@ -131,7 +131,7 @@ The result? Every audit comes with a **replay ID** and **trace hash** that prove
 │         (Chain 5003)          │   │  (782 exploits, 2 collections)  │
 │                               │   │                                 │
 │    RaxcAgentERC8004 (Solidity)│   │      HNSW-indexed search        │
-│   0x9eD919... audit + memory  │   │       cosine similarity         │
+│   0x28d831... audit + memory  │   │       cosine similarity         │
 │                               │   │                                 │
 │   ECIES-encrypted reports     │   │  defi_cases + defi_protocols    │
 │   owner-only decryptable      │   │      68fe2ddf.cloud.qdrant      │
