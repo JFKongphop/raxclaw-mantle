@@ -6,13 +6,13 @@
 [![Solidity](https://img.shields.io/badge/contracts-Solidity%20%2B%20Foundry-gray)](./contracts)
 [![Docker](https://img.shields.io/badge/deploy-Docker-2496ED)](./backend/Dockerfile)
 [![Vercel](https://img.shields.io/badge/frontend-Vercel-black)](https://raxclaw-mantle.vercel.app)
-[![Demo](https://img.shields.io/badge/watch-demo-red)](https://youtu.be/KCB8SH8YXvo)
+[![Demo](https://img.shields.io/badge/watch-demo-red)](https://youtu.be/i7NuIjf5wck)
 
 ---
 
 ## 🎥 Demo Video
 
-[![RAXC Demo](https://img.youtube.com/vi/KCB8SH8YXvo/0.jpg)](https://youtu.be/i7NuIjf5wck)
+[![RAXC Demo](https://img.youtube.com/vi/i7NuIjf5wck/0.jpg)](https://youtu.be/i7NuIjf5wck)
 
 ---
 
