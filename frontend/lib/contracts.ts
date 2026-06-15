@@ -87,28 +87,37 @@ export async function fetchAuditTasks(): Promise<OnChainAudit[]> {
     const body = (method: string, params: unknown[]) =>
       JSON.stringify({ jsonrpc: '2.0', id: 1, method, params });
 
-    // Get latest block and compute a safe fromBlock (last 10k blocks)
+    // Get latest block
     const latestHex = await fetch(RPC_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: body('eth_blockNumber', []) })
       .then(r => r.json()).then(j => j.result).catch(() => '0x261be00');
     const latest = parseInt(latestHex, 16);
-    const fromBlock = '0x' + Math.max(0, latest - 10000).toString(16);
 
-    const [createdLogs, finalizedLogs] = await Promise.all([
-      fetch(RPC_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: body('eth_getLogs', [{ address: AGENT_ADDR, topics: [TOPIC_AUDIT_CREATED], fromBlock, toBlock: 'latest' }]) })
-        .then(r => r.json()).then(j => j.result || []).catch(() => []),
-      fetch(RPC_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: body('eth_getLogs', [{ address: AGENT_ADDR, topics: [TOPIC_AUDIT_FINALIZED], fromBlock, toBlock: 'latest' }]) })
-        .then(r => r.json()).then(j => j.result || []).catch(() => []),
-    ]);
+    // Paginate across 10k-block windows to cover full contract history
+    const WINDOW = 10000;
+    const createdLogsAll: unknown[] = [];
+    const finalizedLogsAll: unknown[] = [];
+
+    for (let from = Math.max(0, latest - 100000); from < latest; from += WINDOW) {
+      const to = Math.min(from + WINDOW - 1, latest);
+      const [cLogs, fLogs] = await Promise.all([
+        fetch(RPC_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: body('eth_getLogs', [{ address: AGENT_ADDR, topics: [TOPIC_AUDIT_CREATED], fromBlock: '0x' + from.toString(16), toBlock: '0x' + to.toString(16) }]) })
+          .then(r => r.json()).then(j => j.result || []).catch(() => []),
+        fetch(RPC_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: body('eth_getLogs', [{ address: AGENT_ADDR, topics: [TOPIC_AUDIT_FINALIZED], fromBlock: '0x' + from.toString(16), toBlock: '0x' + to.toString(16) }]) })
+          .then(r => r.json()).then(j => j.result || []).catch(() => []),
+      ]);
+      createdLogsAll.push(...(cLogs as unknown[]));
+      finalizedLogsAll.push(...(fLogs as unknown[]));
+    }
 
     // Index AuditCreated by recordId (topics[2])
     const createdByTask = new Map<string, { contractName: string; requester: string }>();
-    for (const log of createdLogs) {
-      const recordId = BigInt(log.topics[2]).toString();
-      // AuditCreated data: contractName (string), timestamp (uint256)
-      const data = log.data;
+    for (const log of createdLogsAll) {
+      const logItem = log as { topics: string[]; data: string; transactionHash: string };
+      const recordId = BigInt(logItem.topics[2]).toString();
+      const data = logItem.data;
       const offset = parseInt(data.slice(2, 66), 16) * 2;
       const strLen = parseInt(data.slice(2 + offset, 2 + offset + 64), 16) * 2;
       const strHex = data.slice(2 + offset + 64, 2 + offset + 64 + strLen);
@@ -120,10 +129,11 @@ export async function fetchAuditTasks(): Promise<OnChainAudit[]> {
     }
 
     const tasks: OnChainAudit[] = [];
-    for (const log of finalizedLogs.reverse()) {
-      const recordId = BigInt(log.topics[2]).toString();
+    for (const log of finalizedLogsAll.reverse()) {
+      const logItem = log as { topics: string[]; data: string; transactionHash: string };
+      const recordId = BigInt(logItem.topics[2]).toString();
       const created = createdByTask.get(recordId);
-      const data = log.data.slice(2);
+      const data = logItem.data.slice(2);
       const riskLevel = parseInt(data.slice(0, 64), 16);
       const confidence = parseInt(data.slice(64, 128), 16);
       const reportHash = '0x' + data.slice(128, 192);
@@ -136,7 +146,7 @@ export async function fetchAuditTasks(): Promise<OnChainAudit[]> {
         verdict: RISK_LABELS[riskLevel] ?? 'Unknown',
         replayId: '',
         completedAt: new Date(timestamp * 1000),
-        txHash: log.transactionHash,
+        txHash: logItem.transactionHash,
         contractName: created?.contractName ?? `Audit #${recordId}`,
         confidence,
         requester: created?.requester ?? '',
