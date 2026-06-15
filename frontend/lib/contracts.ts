@@ -87,12 +87,19 @@ export async function fetchAuditTasks(): Promise<OnChainAudit[]> {
     const body = (method: string, params: unknown[]) =>
       JSON.stringify({ jsonrpc: '2.0', id: 1, method, params });
 
+    // Get latest block and compute a safe fromBlock (last 10k blocks)
+    const latestHex = await fetch(RPC_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: body('eth_blockNumber', []) })
+      .then(r => r.json()).then(j => j.result).catch(() => '0x261be00');
+    const latest = parseInt(latestHex, 16);
+    const fromBlock = '0x' + Math.max(0, latest - 10000).toString(16);
+
     const [createdLogs, finalizedLogs] = await Promise.all([
       fetch(RPC_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: body('eth_getLogs', [{ address: AGENT_ADDR, topics: [TOPIC_AUDIT_CREATED], fromBlock: '0x261be00', toBlock: 'latest' }]) })
+        body: body('eth_getLogs', [{ address: AGENT_ADDR, topics: [TOPIC_AUDIT_CREATED], fromBlock, toBlock: 'latest' }]) })
         .then(r => r.json()).then(j => j.result || []).catch(() => []),
       fetch(RPC_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: body('eth_getLogs', [{ address: AGENT_ADDR, topics: [TOPIC_AUDIT_FINALIZED], fromBlock: '0x261be00', toBlock: 'latest' }]) })
+        body: body('eth_getLogs', [{ address: AGENT_ADDR, topics: [TOPIC_AUDIT_FINALIZED], fromBlock, toBlock: 'latest' }]) })
         .then(r => r.json()).then(j => j.result || []).catch(() => []),
     ]);
 
