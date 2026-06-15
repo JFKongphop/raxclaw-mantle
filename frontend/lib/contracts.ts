@@ -6,7 +6,7 @@ export const CHAIN_ID = 5003;
 
 // ── Deployed contract address ─────────────────────────────────────────────────
 export const ADDRESSES = {
-  raxcAgent: '0x9eD9190d6B2a57444020a7C4461f8A17B0638d4e',
+  raxcAgent: '0x28d8317b60f5103516c83b40c20d29E8EcB286f1',
 } as const;
 // Legacy aliases (backward compat)
 const AGENT_ADDR = ADDRESSES.raxcAgent;

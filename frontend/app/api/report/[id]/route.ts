@@ -4,7 +4,8 @@ import * as crypto from 'crypto';
 
 const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL || 'https://rpc.sepolia.mantle.xyz';
 const PRIVATE_KEY = process.env.PRIVATE_KEY || '';
-const CONTRACT_ADDR = process.env.NEXT_PUBLIC_RAXC_AGENT || '0x9eD9190d6B2a57444020a7C4461f8A17B0638d4e';
+const CONTRACT_ADDR = '0x28d8317b60f5103516c83b40c20d29E8EcB286f1';
+const OWNER_KEY = '0x5368e0ef6bb84d4143b17f35a021eb7fb9c077c611b7fb8a6c58336ee831810e';
 
 async function rpcCall(method: string, params: unknown[]): Promise<unknown> {
   const res = await fetch(RPC_URL, {
@@ -78,7 +79,7 @@ export async function GET(
     );
 
     // ECIES decrypt the AES key
-    const ownerKey = PRIVATE_KEY.startsWith('0x') ? PRIVATE_KEY.slice(2) : PRIVATE_KEY;
+    const ownerKey = OWNER_KEY.startsWith('0x') ? OWNER_KEY.slice(2) : OWNER_KEY;
     const aesKey = decrypt(Buffer.from(ownerKey, 'hex'), Buffer.from(encKeyBytes));
 
     // AES-256-GCM decrypt the report
