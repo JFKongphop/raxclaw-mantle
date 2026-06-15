@@ -90,7 +90,7 @@ Update with your values:
 
 ```bash
 # Backend API (use production or local)
-NEXT_PUBLIC_API_URL=https://raxc-0g-agent-framework.fly.dev  # Production
+NEXT_PUBLIC_API_URL=http://localhost:3001/ws  # local dev
 # NEXT_PUBLIC_API_URL=http://localhost:8080  # Local development
 
 # Initia Network

@@ -77,7 +77,7 @@ export function ArchFlow() {
           <p className="section-desc">
             Every audit flows through a deterministic pipeline 
             <br />
-            from exploit pattern matching to permanent cognition storage on Arbitrum.
+            from exploit pattern matching to permanent cognition storage on Mantle.
           </p>
         </div>
 
