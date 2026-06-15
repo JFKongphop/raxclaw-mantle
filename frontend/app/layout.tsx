@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'RAXCLAW — Autonomous Security Cognition on Mantle',
   description:
-    'Persistent autonomous security cognition on Mantle. Replayable intelligence, deterministic execution, cryptographic verification.',
+    'Autonomous AI Security Agent for Smart Contract Auditing on Mantle. Replayable intelligence, deterministic execution, cryptographic verification.',
   icons: { icon: '/icon.png', apple: '/icon.png' },
 };
 

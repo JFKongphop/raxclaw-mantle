@@ -88,9 +88,9 @@ export function HeroSection() {
             lineHeight: 1.55,
           }}
         >
-          Persistent autonomous security cognition.
+          Autonomous AI Security Agent for Smart Contract Auditing.
           <br />
-          Replayable intelligence that evolves with every audit.
+          Persistent audit memory that learns from every analysis and improves future audits.
         </p>
 
         {/* Stack line */}
