@@ -18,6 +18,7 @@ import {
   QdrantStorageClient,
   StylusClient,
   AgentCore,
+  RaxcAnalyzer,
   RaxcAnalyzerRemote,
   GasAnalyzerTool,
   PatternDetectorTool,
@@ -31,18 +32,12 @@ import * as path from "path";
 
 // ─── Default demo contract with intentional vulnerabilities ──────────────────
 const DEFAULT_CONTRACT = `
+// DeFiVault — built-in demo contract
 pragma solidity ^0.7.0;
 
 contract DeFiVault {
     mapping(address => uint256) public balances;
     address[] public depositors;
-    address public owner;
-    bool private initialized;
-
-    // ❌ AccessControl: no initializer guard, callable multiple times
-    function initialize(address _owner) external {
-        owner = _owner;
-    }
 
     function deposit() external payable {
         balances[msg.sender] += msg.value;
@@ -50,7 +45,6 @@ contract DeFiVault {
     }
 
     // ❌ Reentrancy: external call before state update
-    // ❌ AccessControl: no onlyOwner guard on withdraw
     function withdraw() external {
         uint256 amount = balances[msg.sender];
         require(amount > 0, "Nothing to withdraw");
@@ -58,29 +52,6 @@ contract DeFiVault {
         require(ok, "Transfer failed");
         balances[msg.sender] = 0;
     }
-
-    // ❌ FlashLoan: spot price oracle via getReserves — manipulable in one tx
-    function getPrice() external view returns (uint256) {
-        (uint112 reserve0, uint112 reserve1,) = IUniswapPair(address(this)).getReserves();
-        return uint256(reserve0) * 1e18 / uint256(reserve1);
-    }
-
-    // ❌ FlashLoan: flash loan callback with no reentrancy guard
-    function executeOperation(uint256 amount) external {
-        uint256 price = this.getPrice();
-        balances[msg.sender] += price * amount;
-    }
-
-    // ❌ Gas: array.length in loop, string memory param
-    function distributeRewards(string memory label) external {
-        for (uint i = 0; i < depositors.length; i++) {
-            balances[depositors[i]] += 100;
-        }
-    }
-}
-
-interface IUniswapPair {
-    function getReserves() external view returns (uint112, uint112, uint32);
 }
 `;
 
@@ -117,8 +88,7 @@ async function main(): Promise<void> {
   const core = new AgentCore(qdrant, stylus, compute);
 
   // ─── Register tools ────────────────────────────────────────────────────────
-  console.log("\x1b[33m[*] Registering tools to ToolRegistry...\x1b[0m");
-  core.tools.register(new RaxcAnalyzerRemote(qdrant, compute));
+  console.log("\x1b[33m[*] Registering tools to ToolRegistry...\x1b[0m");  core.tools.register(new RaxcAnalyzer(qdrant, compute));  core.tools.register(new RaxcAnalyzerRemote(qdrant, compute));
   core.tools.register(new GasAnalyzerTool());
   core.tools.register(new PatternDetectorTool());
   core.tools.register(new FlashLoanTool());

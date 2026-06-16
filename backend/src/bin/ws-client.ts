@@ -17,13 +17,13 @@ const DEFAULT_CONTRACT = `pragma solidity ^0.7.0;
 contract DeFiVault {
     mapping(address => uint256) public balances;
     address[] public depositors;
-    address public owner;
 
     function deposit() external payable {
         balances[msg.sender] += msg.value;
         depositors.push(msg.sender);
     }
 
+    // ❌ Reentrancy: external call before state update
     function withdraw() external {
         uint256 amount = balances[msg.sender];
         require(amount > 0, "Nothing to withdraw");

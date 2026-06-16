@@ -6,12 +6,13 @@ FROM oven/bun:1-alpine AS base
 WORKDIR /app
 
 # ─── Dependencies layer (cached unless package.json changes) ──────────────────
-COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile --production
+COPY package.json ./
+RUN bun install --production
 
 # ─── Source layer ─────────────────────────────────────────────────────────────
 COPY tsconfig.json ./
 COPY src/ ./src/
+COPY examples/ ./examples/
 
 # ─── Runtime ──────────────────────────────────────────────────────────────────
 ENV NODE_ENV=production

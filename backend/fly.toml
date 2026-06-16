@@ -17,3 +17,11 @@ cpu_kind = "shared"
 cpus = 1
 memory = "1gb"
 memory_mb = 512
+
+[http_service.checks]
+[http_service.checks.http]
+method = "GET"
+path = "/health"
+grace_period = "10s"
+interval = "15s"
+timeout = "5s"
